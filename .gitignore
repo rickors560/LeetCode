@@ -1,3 +1,7 @@
+#Git Ignore File
+.vscode
+bin
+
 # Prerequisites
 *.d
 
