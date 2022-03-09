@@ -7,7 +7,7 @@ public:
         int n = s.length();
 
         int max_length = 0;
-        string max_s = "";
+        int l = 0, r = 0;
 
         for (int i = 0; i < n; i++){
 
@@ -17,7 +17,7 @@ public:
             while (left >= 0 && right < n && s[left] == s[right] ){
                 if(max_length < right - left + 1){
                     max_length = right - left + 1;
-                    max_s = s.substr(left, max_length);
+                    l = left; r = right;
                 }
 
                 left--;
@@ -30,7 +30,7 @@ public:
            while (left >= 0 && right < n && s[left] == s[right] ){
                 if(max_length < right - left + 1){
                     max_length = right - left + 1;
-                    max_s = s.substr(left, max_length);
+                    l = left; r = right;
                 }
                 
                 left--;
@@ -38,6 +38,6 @@ public:
             }
         }
 
-        return max_s;        
+        return s.substr(l, r - l + 1);        
     }
 };
