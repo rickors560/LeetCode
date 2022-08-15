@@ -53,10 +53,11 @@ public:
             {"CM", 900},
             {"M", 1000}};
 
+        int n = s.size();
         int result = 0;
-        for (int i = 0; i < s.size(); i++)
+        for (int i = 0; i < n; i++)
         {
-            if (table.find(s.substr(i, 2)) != table.end())
+            if (i+2 <= n && table.find(s.substr(i, 2)) != table.end())
             {
                 result += table[s.substr(i++, 2)];
             }
