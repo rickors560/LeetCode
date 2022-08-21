@@ -39,7 +39,7 @@ public:
     {
         vector<int> result;
         string str = target;
-        string targetString(target.size(), '*');
+        string targetString(target.size(), '*');        //Think in reverse like target -> '********'
 
         while (str != targetString)
         {
