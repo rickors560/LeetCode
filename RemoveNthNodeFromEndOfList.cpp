@@ -39,6 +39,6 @@ public:
         }
 
         s->next = s->next->next;
-        return s;
+        return head;
     }
 };
