@@ -1,49 +1,40 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 class Solution
 {
-private:
-    void swap(vector<int> &nums, int i, int j)
-    {
-        int temp = nums[j];
-        nums[j] = nums[i];
-        nums[i] = temp;
-    }
-
-    void reverse(vector<int> &nums, int i)
-    {
-        int j = nums.size() - 1;
-        while (i < j)
-        {
-            swap(nums, i, j);
-            i++;
-            j--;
-        }
-    }
-
 public:
     void nextPermutation(vector<int> &nums)
     {
-        int i = nums.size() - 2;
+        int n = nums.size();
+        int longestPrefixIndex = -1; // As per dictionary order
 
-        while (i >= 0 && nums[i] >= nums[i + 1])
+        for (int i = n - 2; i >= 0; i--)
         {
-            i--;
-        }
-
-        if (i >= 0)
-        {
-            int j = nums.size() - 1;
-
-            while (nums[i] >= nums[j])
+            if (nums[i] < nums[i + 1])
             {
-                j--;
+                longestPrefixIndex = i;
+                break;
             }
-            swap(nums, i, j);
         }
 
-        reverse(nums, i + 1);
+        if (longestPrefixIndex == -1)
+        {
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+
+        for (int i = n - 1; i >= longestPrefixIndex + 1; i--)
+        {
+            if (nums[i] > nums[longestPrefixIndex])
+            {
+                swap(nums[i], nums[longestPrefixIndex]);
+                break;
+            }
+        }
+
+        // Reversing the 2nd Half as its already in decreasing order and
+        // it order to maintain dictionary order it need to be in ascending order.
+        reverse(nums.begin() + longestPrefixIndex + 1, nums.end());
     }
 };
