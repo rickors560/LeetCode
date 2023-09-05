@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 class Node
@@ -20,74 +19,27 @@ public:
 class Solution
 {
 public:
-    // More efficient way
     Node *copyRandomList(Node *head)
     {
-        if (head == NULL)
-            return NULL;
+        unordered_map<Node *, Node *> newNodes;
 
         Node *temp = head;
-
-        // Insert a copy node to make [ A -> B -> C ] to [ A -> A` -> B -> B` -> C -> C` ]
         while (temp != NULL)
         {
-            Node *t = temp->next;
-
-            temp->next = new Node(temp->val);
-
-            temp->next->next = t;
-
-            temp = t;
+            newNodes.insert({temp, new Node(temp->val)});
+            temp = temp->next;
         }
 
         temp = head;
 
-        // Copy the random pointer
         while (temp != NULL)
         {
-            temp->next->random = (temp->random != NULL) ? temp->random->next : NULL;
-            temp = temp->next->next;
-        }
-
-        Node *orginalList = head;
-        Node *newList = head->next;
-        temp = newList;
-
-        // Restoring the original list and new copy list
-        while (orginalList != NULL)
-        {
-            orginalList->next = orginalList->next->next;
-            temp->next = (temp->next != NULL) ? temp->next->next : NULL;
-
-            orginalList = orginalList->next;
+            auto newNode = newNodes[temp];
+            newNode->next = newNodes[temp->next];
+            newNode->random = newNodes[temp->random];
             temp = temp->next;
         }
 
-        return newList;
-    }
-
-    // Using map as a cache for random pointer ( Has more space complexity )
-    Node *copyRandomListUsingMap(Node *head)
-    {
-        map<Node *, Node *> cache;
-
-        Node *temp = head;
-
-        while (temp != NULL)
-        {
-            cache.insert({temp, new Node(temp->val)});
-            temp = temp->next;
-        }
-
-        temp = head;
-        while (temp != NULL)
-        {
-            cache[temp]->next = cache[temp->next];
-            cache[temp]->random = cache[temp->random];
-
-            temp = temp->next;
-        }
-
-        return cache[head];
+        return newNodes[head];
     }
 };
